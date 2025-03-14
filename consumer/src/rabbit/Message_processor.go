@@ -18,9 +18,9 @@ func ProcessMessage(msgs <-chan amqp.Delivery) {
 	go func() {
 
 		for d := range msgs {
-			var student models.StudentAttributesCreated
+			var s models.StudentCredentials
 
-			err := json.Unmarshal(d.Body, &student)
+			err := json.Unmarshal(d.Body, &s)
 
 			if err != nil {
 				log.Printf("Error al decodificar el mensaje: %s", err)
@@ -31,8 +31,7 @@ func ProcessMessage(msgs <-chan amqp.Delivery) {
 
 			var accessCredentials models.AccessCredentials
 
-			user := fmt.Sprintf("%s-UP-%d", student.Name, student.Id)
-			passWithouthash := fmt.Sprintf("%d%s", student.Id, student.Name)
+			passWithouthash := fmt.Sprintf("%d%s", s.Student.Id, s.Student.Name)
 
 			// Hasheamos la contraseña
 			hash, err := bcrypt.GenerateFromPassword([]byte(passWithouthash), bcrypt.DefaultCost)
@@ -42,8 +41,8 @@ func ProcessMessage(msgs <-chan amqp.Delivery) {
 			}
 
 			accessCredentials.IdAccessCredentials = 1
-			accessCredentials.IdStudent = student.Id
-			accessCredentials.User = user
+			accessCredentials.IdStudent = s.Student.Id
+			accessCredentials.Email = s.Email
 			accessCredentials.Password = string(hash)
 
 			jsonPayload, err := json.Marshal(accessCredentials)

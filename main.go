@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	infraestructure.InitMySQL()
+	infraestructure.InitDependencies()
 
 	// Creamos el router
 	r := gin.Default()

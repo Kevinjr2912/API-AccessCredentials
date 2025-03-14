@@ -1,4 +1,4 @@
-package application
+package usecases
 
 import (
 	"api_accesscredentials/src/AccessCredentials/domain/entities"

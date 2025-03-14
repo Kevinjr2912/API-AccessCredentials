@@ -47,6 +47,7 @@ func GetDBPool() *Conn_MySQL {
 	}
 
 	return &Conn_MySQL{DB: db, Err: error}
+	
 }
 
 func (conn *Conn_MySQL) ExecutePreparedQuery(query string, values ...interface{}) (sql.Result, error) {

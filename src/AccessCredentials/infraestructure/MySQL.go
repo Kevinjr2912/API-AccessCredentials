@@ -26,9 +26,9 @@ func NewMySQL() *MySQL {
 
 func (mysql *MySQL) AssociateAccessCredentialsToStudent(accessCredentials *entities.AccessCredentials) (err error) {
 
-    query := "INSERT INTO access_credentials (id_student, user, password) VALUES (?,?,?)"
+    query := "INSERT INTO access_credentials (id_student, email, password) VALUES (?,?,?)"
 	
-    _, err = mysql.conn.ExecutePreparedQuery(query, accessCredentials.IdStudent, accessCredentials.User, accessCredentials.Password)
+    _, err = mysql.conn.ExecutePreparedQuery(query, accessCredentials.IdStudent, accessCredentials.Email, accessCredentials.Password)
 
     if err != nil {
         return fmt.Errorf("Error al ejecutar la consulta: %v", err)
