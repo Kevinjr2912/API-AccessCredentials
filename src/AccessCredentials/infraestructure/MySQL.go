@@ -36,3 +36,33 @@ func (mysql *MySQL) AssociateAccessCredentialsToStudent(accessCredentials *entit
 
     return nil
 }
+
+func (mysql *MySQL) GetAccessCredentialsAllStudents() (studentsAC *[]entities.StudentAccessCredentials, err error) {
+	var studentsWithAccessCredentials []entities.StudentAccessCredentials
+	var student entities.StudentAccessCredentials
+
+	query := "SELECT s.id_student, s.name, s.age ,s.phone_number, ac.email FROM students s iNNER JOIN access_credentials ac ON ac.id_student = s.id_student"
+
+	rows := mysql.conn.FetchRows(query)
+
+	defer rows.Close()
+
+	for rows.Next() {
+
+		if err := rows.Scan(&student.IdStudent, &student.Name, &student.Age, &student.PhoneNumber, &student.Email); err != nil {
+			return nil, fmt.Errorf("Error al escanear la fila: %w", err)
+		}
+
+		studentsWithAccessCredentials = append(studentsWithAccessCredentials, student)
+
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("Error después de iterar sobre las filas: %w", err)
+	}
+
+	return &studentsWithAccessCredentials, nil
+
+
+
+}

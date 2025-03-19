@@ -12,6 +12,7 @@ func RegisterRoutes(router *gin.Engine) {
 	{
 		// Definimos las rutas
 		routes.POST("", controllers.NewCreateAccessCredentialsController().Run)
+		routes.GET("", controllers.NewGetStudentsAccessCredentialsController().Run)
 	}
 
 }
