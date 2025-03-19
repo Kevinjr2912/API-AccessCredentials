@@ -9,7 +9,7 @@ import (
 func Fetch(jsonPayload []byte) {
 
 	// Ruta
-	url := "http://localhost:8081/accessCredentials"
+	url := "http://13.216.7.65:8081/accessCredentials"
 
 	// Hacemos la petición
 	resp, err := http.Post(url, "application/json", bytes.NewBuffer(jsonPayload))
